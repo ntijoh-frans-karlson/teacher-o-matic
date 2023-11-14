@@ -15,14 +15,14 @@ const token = 'github_pat_11AWVOH2A0uuFLngQQmTFs_nPBAv8UUbskvuKbweevID1dLyLhz1MF
 const useAssignmentStore = defineStore("assignmentstore", {
     state: () => {
         return {
-            repos: [] as IRepo[],
             forks: [] as IFork[],
+            repos: [] as IRepo[], 
         }
     },
     actions: {
-        async getRepos(user: string) {
+        async fetchRepos(user: string) {
             console.log('recived')
-            //this.repos = []
+            this.state = []
             const res = await fetch(`https://api.github.com/users/${user}/repos`,
             {   
                 headers: {
@@ -38,7 +38,7 @@ const useAssignmentStore = defineStore("assignmentstore", {
             this.repos = filtered
         },
 
-        async getForks(userLink: string) {
+        async fetchForks(userLink: string) {
             const res = await fetch(userLink,
             {
                 headers: {
@@ -49,11 +49,12 @@ const useAssignmentStore = defineStore("assignmentstore", {
             const data = await res.json()
             const filtered: IFork[] = []
             data.forEach((x: IFork) => filtered.push({name: x.name, contents_url: x.contents_url}))
+            this.forks = filtered
         }
     },
 
     getters: {
-        repos(): IRepo[] {
+        getRepos(): IRepo[] {
             console.log('sent')
             return this.repos
         }

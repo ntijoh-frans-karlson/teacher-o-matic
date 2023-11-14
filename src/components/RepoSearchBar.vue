@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import useAssignmentStore from "../stores/AssignmentStore.js";
+//import useAssignmentStore from "../stores/AssignmentStore.js";
 import router from '../router';
-const assignmentStore = useAssignmentStore();
+//const assignmentStore = useAssignmentStore();
 
 const search = ref("")
 
 function submit(e: Event) {
     (e.target! as HTMLFormElement).reset();
     console.log(search.value)
-    assignmentStore.getRepos(search.value)
-    router.push({path: '/repos'})
+    router.push({path: `/${search.value}/repos`})
 }
 </script>
 
